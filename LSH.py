@@ -1,6 +1,7 @@
 import glob
 import random
 import numpy as np
+from itertools import combinations
 
 
 class LSH:
@@ -16,6 +17,8 @@ class LSH:
     def handle(self):
         self.buildMatrix(self.path)
         self.buildSignatures()
+        self.similarity()
+        self.combinations()
 
     def buildMatrix(self, path):
         shingle_array = {}
@@ -34,7 +37,6 @@ class LSH:
                     exist_array.append(0)
             shingle_array.update({shingle: exist_array})
 
-        print(self.document_sort)
         self.signatures = np.full((self.num_permutation, len(self.document_sort)), "******************")
         self.matrix = shingle_array
 
@@ -44,7 +46,6 @@ class LSH:
 
         permuteMatrix = self.matrix
         for permute in range(self.num_permutation):
-            print(permuteMatrix)
             for x in range(0, len(self.document_sort)):
                 for (item, value) in permuteMatrix.items():
                     if value[x] == 1:
@@ -59,4 +60,24 @@ class LSH:
             random.shuffle(lists)
             permuteMatrix = dict(lists)
 
+        return self.signatures
+
+    def similarity(self):
         print(self.signatures)
+        print(self.document_sort)
+
+        for item in self.signatures:
+            print(item)
+
+    def combinations(self):
+        iterate = [i for i in range(1, len(self.document_sort) + 1)]
+        comb = combinations(iterate, 2)
+
+        combines = list()
+
+        for i in list(comb):
+            combines.append(i)
+
+        print(combines)
+
+        return combines
