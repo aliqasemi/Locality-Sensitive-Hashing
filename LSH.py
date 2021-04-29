@@ -66,18 +66,25 @@ class LSH:
         print(self.signatures)
         print(self.document_sort)
 
-        for item in self.signatures:
-            print(item)
+        result = dict()
+
+        for docIndex in self.combinations():
+            similarityNum = 0
+
+            for item in self.signatures:
+                if item[docIndex[0] - 1] == item[docIndex[1] - 1]:
+                    similarityNum += 1
+
+            result.update({docIndex: similarityNum / self.num_permutation})
+
+        return result
 
     def combinations(self):
         iterate = [i for i in range(1, len(self.document_sort) + 1)]
         comb = combinations(iterate, 2)
-
         combines = list()
 
         for i in list(comb):
             combines.append(i)
-
-        print(combines)
 
         return combines
