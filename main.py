@@ -5,7 +5,14 @@ path = "./DataSet"
 shingle = Shingle('word')
 
 lsh = LSH(128, shingle.searchFile(path))
-print(lsh.buildMatrix(path))
+lsh.buildMatrix(path)
+
+lsh.buildSignatures()
+
+
+# arr = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+# arr[1][0] = 5
+# print(arr)
 
 # arr = {}
 # arr.update({"d": [1, 1, 0 , 1]})

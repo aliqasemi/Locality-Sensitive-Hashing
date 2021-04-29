@@ -1,8 +1,11 @@
 import glob
+import random
+import numpy as np
 
 
 class LSH:
     document_sort = []
+    matrix = set()
 
     def __init__(self, num_permutation, shingles):
         self.num_permutation = num_permutation
@@ -19,10 +22,34 @@ class LSH:
                     self.document_sort.append(open(text_file, "r").name)
 
                 document = open(text_file, "r").read()
-                if shingle in document:
+                if shingle in document.lower():
                     exist_array.append(1)
                 else:
                     exist_array.append(0)
             shingle_array.update({shingle: exist_array})
 
+        print(self.document_sort)
+        self.matrix = shingle_array
+
         return shingle_array
+
+    def buildSignatures(self):
+        signatures = np.full((self.num_permutation, len(self.document_sort)), "******************")
+        permuteMatrix = self.matrix
+        for permute in range(self.num_permutation):
+            print(permuteMatrix)
+            for x in range(0, len(self.document_sort)):
+                for (item, value) in permuteMatrix.items():
+                    if value[x] == 1:
+                        position_row = permute
+                        position_col = x
+                        signatures[position_row][position_col] = item
+                        position = [int(len(self.document_sort) * position_row + position_col)]
+                        np.put(signatures, position, item)
+                        break
+
+            lists = list(permuteMatrix.items())
+            random.shuffle(lists)
+            permuteMatrix = dict(lists)
+
+        print(signatures)
