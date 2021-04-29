@@ -1,6 +1,7 @@
 import re
 import glob
 
+
 class Shingle:
     shingles = set()
 
