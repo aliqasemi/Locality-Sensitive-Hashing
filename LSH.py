@@ -18,6 +18,8 @@ class LSH:
     def handle(self):
         self.buildMatrix(self.path)
         self.buildSignatures()
+        print("more Similar Document")
+        print(self.findSimilarDocuments())
         self.draw()
 
     def buildMatrix(self, path):
@@ -91,9 +93,7 @@ class LSH:
         height = list()
         bars = set()
 
-        print(self.similarity())
         for (document, value) in self.similarity().items():
-            print(document, value)
             height.append(value)
             bars.add(document)
 
@@ -113,3 +113,10 @@ class LSH:
         # Show graph
         plt.show()
 
+    def findSimilarDocuments(self, similarity=0.5):
+        result = dict()
+        for (document, value) in self.similarity().items():
+            if value >= similarity:
+                result.update({document: value})
+
+        return result
