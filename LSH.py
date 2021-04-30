@@ -2,6 +2,7 @@ import glob
 import random
 import numpy as np
 from itertools import combinations
+import matplotlib.pyplot as plt
 
 
 class LSH:
@@ -17,8 +18,7 @@ class LSH:
     def handle(self):
         self.buildMatrix(self.path)
         self.buildSignatures()
-        self.similarity()
-        self.combinations()
+        self.draw()
 
     def buildMatrix(self, path):
         shingle_array = {}
@@ -63,9 +63,6 @@ class LSH:
         return self.signatures
 
     def similarity(self):
-        print(self.signatures)
-        print(self.document_sort)
-
         result = dict()
 
         for docIndex in self.combinations():
@@ -75,7 +72,8 @@ class LSH:
                 if item[docIndex[0] - 1] == item[docIndex[1] - 1]:
                     similarityNum += 1
 
-            result.update({docIndex: similarityNum / self.num_permutation})
+            result.update({(self.document_sort[docIndex[0] - 1],
+                            self.document_sort[docIndex[1] - 1]): similarityNum / self.num_permutation})
 
         return result
 
@@ -88,3 +86,5 @@ class LSH:
             combines.append(i)
 
         return combines
+
+
