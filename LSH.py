@@ -87,4 +87,29 @@ class LSH:
 
         return combines
 
+    def draw(self):
+        height = list()
+        bars = set()
+
+        print(self.similarity())
+        for (document, value) in self.similarity().items():
+            print(document, value)
+            height.append(value)
+            bars.add(document)
+
+        x_pos = np.arange(len(bars))
+
+        # Create bars and choose color
+        plt.bar(x_pos, height, color=(0.5, 0.1, 0.5, 0.6))
+
+        # Add title and axis names
+        plt.title('Similarity')
+        plt.xlabel('Files')
+        plt.ylabel('Files')
+
+        # Create names on the x axis
+        plt.xticks(x_pos, bars)
+
+        # Show graph
+        plt.show()
 
